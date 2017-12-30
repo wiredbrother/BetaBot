@@ -159,7 +159,7 @@ local function main()
                 tell("@a", tps[#tps])
                 print("Told "..name.." the tps")
             elseif command[1] == "spawnout" then
-                commands.tp(name, 148, 71, -484)
+                commands.tp(name, 148, 71, -485)
                 print("Sent outside of spawn building: ", name)
             elseif command[1] == "help" then
                 tell(name, cList)
