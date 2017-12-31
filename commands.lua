@@ -93,6 +93,7 @@ local cList = {
 "&c&g!afk&6: &rToggles AFK status and puts you in a safe place",
 "&c&g!motd&6: &rshows message of the day",
 "&c&g!github&6: &rshows how to edit me!",
+"&c&g!spawnout&6: &rTP's player out of spawn building!"
 }
 local tpList = {}
 local function login()
@@ -160,6 +161,9 @@ local function main()
             elseif command[1] == "help" then
                 tell(name, cList)
                 print("Sent help to", name)
+            elseif command[1] == "spawnout" then
+                  commands.tp(name, 148, 71, -485)
+                  print("spawnedout: ", name)
             elseif command[1] == "rtp" then
                 commands.spreadplayers(20000, 20000, 1000, 20000, false, name)
                 tell(name, "&6Teleported to a random location!")
