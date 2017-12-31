@@ -49,25 +49,6 @@ local tell = function(name, message)
     end
     return textutils.serialise(test)
 end
-local function AFKLock()
-    while true do
-        local file = fs.open("persistence.json", "r")
-        local isAFK
-        if file then
-            isAFK = textutils.unserialize(file.readAll())
-            file.close()
-        else
-            isAFK = {}
-            local writer = fs.open("persistence.json", "w")
-            writer.write(textutils.serialize(isAFK))
-            writer.close()
-        end
-        for k, v in pairs(isAFK) do
-            local _, res = commands.tp(v[1], v[2], "~", v[4])
-        end
-        sleep()
-    end
-end
 local rules = {
 "&6*&rUse Common Sense",
 "&6*&rNo Griefing Claimed Land", 
@@ -90,7 +71,6 @@ local cList = {
 "&c&g!players&6: &rshows current online players",
 "&c&g!hangman&6: &rstarts a game of hangman",
 "&c&g!math&6: &rperforms any mathematical equation you throw at it",
-"&c&g!afk&6: &rToggles AFK status and puts you in a safe place",
 "&c&g!motd&6: &rshows message of the day",
 "&c&g!spawnout&6: &rTP's player out of spawn building!",
 "&c&g!github&6: &rshows how to edit me!"
@@ -346,46 +326,6 @@ local function main()
                     end
                 else
                     tell(name, "&cOkay you can stop trying to test the bounds now.")
-                end
-            elseif command[1] == "afk" then
-                local file = fs.open("isAFK.txt", "r")
-                local isAFK = textutils.unserialize(file.readAll())
-                file.close()
-                local function save(t)
-                    local file = fs.open("isAFK.txt", "w")
-                    file.write(textutils.serialize(isAFK))
-                    file.close()
-                end
-                local afk = false
-                for i = 1, #isAFK do
-                    if isAFK[i][1] == name then
-                        afk = true
-                    end
-                end
-                if afk == false then
-                    local amod = {}
-                    local _, res = commands.tp(name, "~ ~ ~")
-                    for i in res[1]:gmatch("%S+") do
-                        amod[#amod+1] = i:gsub("[,]", "")
-                    end
-                    tell("@a", "&6*"..name.." is AFK.")
-                    print(name.." is AFK.")
-                    isAFK[#isAFK+1] = {name, amod[4], amod[5], amod[6]}
-                    commands.setblock(amod[4], "253", amod[6], "barrier 0")
-                    commands.tp(name, amod[4], "254", amod[6])
-                    save(isAFK)
-                else
-                    for i = 1, #isAFK do
-                        if isAFK[i][1] == name then
-                            local temppos = isAFK[i]
-                            table.remove(isAFK, i)
-                            save(isAFK)
-                            commands.setblock(temppos[2], "253", temppos[4], "air 0")
-                            commands.tp(table.concat(temppos, " "))
-                            tell("@a", "&6*"..name.." is no longer AFK.")
-                            print(name.." is no longer AFK.")
-                        end
-                    end
                 end
             elseif command[1] == "test" then
                 print(textutils.serialise({commands.tellraw(name, color.format("&11&22&33&44&55&66&77&88&99&00&aa&bb&cc&dd&ee&ff\\n &rnewline!"))}))
