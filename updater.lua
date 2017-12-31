@@ -4,6 +4,7 @@ local files = {
   command = "https://raw.githubusercontent.com/wiredbrother/BetaBot/master/commands.lua",
   color = "https://raw.githubusercontent.com/wiredbrother/BetaBot/master/color.lua",
   motd = "https://raw.githubusercontent.com/wiredbrother/BetaBot/master/motd.txt",
+  isAFK = "https://raw.githubusercontent.com/wiredbrother/BetaBot/master/isAFK.txt"
 }
 for k, v in pairs(files) do
   local site = http.get(v)
