@@ -346,4 +346,4 @@ local function main()
         end
     end
 end
-parallel.waitForAny(main, AFKLock, login)
+parallel.waitForAny(main, login)
